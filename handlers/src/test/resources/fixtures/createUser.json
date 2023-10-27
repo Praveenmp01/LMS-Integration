@@ -1,0 +1,27 @@
+{ 
+    "externalId": "test13",
+    "dataSourceId": "_2_1",
+    "userName": "test13",
+    "studentId": "test01",
+    "educationLevel": "Unknown",
+    "password": "pass",
+    "gender": "Unknown",
+    "institutionRoleIds": [
+        "STUDENT"
+    ],
+    "systemRoleIds": [
+        "TDM_ADMIN"
+    ],
+    "availability": {
+        "available": "Yes"
+    },
+    "name": {
+        "given": "test01",
+        "family": ".",
+        "other": "test01",
+        "preferredDisplayName": "GivenName"
+    },
+    "address": {
+        "zipCode": "909"
+    }
+}

@@ -1,0 +1,1079 @@
+openapi: 3.0.0
+info:
+  description: The LMS Integrations endpoints can be used to call selected endpoints of an LMS with an enhanced set of entitlements. Only specific Applications are authorized to use these endpoints.
+
+  version: "v1.1"
+  title: CCSC LMS Integrations Services
+  contact:
+    email: gcx-softwaresolutions-ccsc-scrums@blackboard.com
+servers:
+  - url: "us.int.extensions.bb-fnds.com"
+    description: domain base
+tags:
+  - name: LMS Integrations Services
+
+security:
+  - bearerAuth: []
+  - jwtAuth: []
+paths:
+  ? /api/v2/lmsIntegrations/sites/{siteId}/applications/{applicationId}/courseMemberships
+  : put:
+      tags:
+        - Course memberships
+      summary: Create Membership
+      description: Creates a user membership in the specified course.
+      parameters:
+        - $ref: "#/components/parameters/correlation-ID"
+        - $ref: "#/components/parameters/siteId"
+        - $ref: "#/components/parameters/applicationId"
+        - $ref: "#/components/parameters/fields"
+      responses:
+        "201":
+          $ref: "#/components/responses/201"
+        "400":
+          $ref: "#/components/responses/400"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "409":
+          $ref: "#/components/responses/409"
+        "500":
+          $ref: "#/components/responses/500"
+        "502":
+          $ref: "#/components/responses/502"
+      requestBody:
+        $ref: "#/components/requestBodies/CourseMembership"
+  ? /api/v2/lmsIntegrations/sites/{siteId}/applications/{applicationId}/lmsType/{lmsType}/users/{userName}
+  : head:
+      tags:
+        - Users
+      summary: Check if username exists
+      description: Checks whether a user with a given username exists in the specified LMS on the site with the received siteId. This endpoint can only be used with selected applications and LMS types, [see requirements.](https://dev.azure.com/AnthologyInc-01/Anthology%20Consulting/_wiki/wikis/Anthology-Consulting.wiki/2054/Check-if-username-exists-in-Learn)
+      parameters:
+        - $ref: "#/components/parameters/correlation-ID"
+        - $ref: "#/components/parameters/siteId"
+        - $ref: "#/components/parameters/usersApplicationId"
+        - $ref: "#/components/parameters/lmsType"
+        - $ref: "#/components/parameters/userName"
+      responses:
+        "200":
+          $ref: "#/components/responses/userName200"
+        "400":
+          $ref: "#/components/responses/userName400"
+        "403":
+          $ref: "#/components/responses/userName403"
+        "404":
+          $ref: "#/components/responses/userName404"
+        "500":
+          $ref: "#/components/responses/userName500"
+        "502":
+          $ref: "#/components/responses/userName502"
+  ? /api/v2/lmsIntegrations/sites/{siteId}/applications/{applicationId}/lmsType/{lmsType}/users
+  : post:
+      tags:
+        - Users
+      summary: Create new user
+      description: Creates a new user in the specified lmsType. This endpoint can only be used with selected applications and lms types, [see requirements.](https://dev.azure.com/AnthologyInc-01/Anthology%20Consulting/_wiki/wikis/Anthology-Consulting.wiki/2022/Create-new-user-in-Learn)
+      parameters:
+        - $ref: "#/components/parameters/correlation-ID"
+        - $ref: "#/components/parameters/siteId"
+        - $ref: "#/components/parameters/usersApplicationId"
+        - $ref: "#/components/parameters/lmsType"
+        - $ref: "#/components/parameters/userFields"
+      responses:
+        "201":
+          $ref: "#/components/responses/users201"
+        "400":
+          $ref: "#/components/responses/users400"
+        "403":
+          $ref: "#/components/responses/users403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+        "502":
+          $ref: "#/components/responses/502"
+      requestBody:
+        $ref: "#/components/requestBodies/CreateNewUser"
+externalDocs:
+  description: Please check the technical design documentation here
+  url: "https://confluence.bbpd.io/display/BCSS/Platform+Extensions+LMS+Integrations"
+
+components:
+  headers:
+    Correlation-ID:
+      required: false
+      description: Responses use the Correlation-ID custom header to uniquely and opaquely identify the request that generated them
+      schema:
+        example: "84hsafkv823sk"
+    Location:
+      required: false
+      description: The relative url to access the new resource.
+      schema:
+        example: "/applications/programView"
+
+  parameters:
+    correlation-ID:
+      name: correlation-ID
+      in: header
+      required: false
+      description: An optional header which if used, is sent back with the same value in the response as well to uniquely and opaquely identify the request that generated the response.
+      schema:
+        type: string
+        format: string
+        example: "84hsafkv823sk"
+    id:
+      name: id
+      in: path
+      required: true
+      description: Represents the id from the database
+      schema:
+        type: string
+        format: string
+        example: "465239a5-929a-4652-b5b0-6614564e1250"
+    siteId:
+      name: siteId
+      in: path
+      required: true
+      description: Represents the siteId of the Learn environment.
+      schema:
+        type: string
+        format: string
+        example: "1c7039a5-929a-4652-b5b0-6614564e1250"
+    applicationId:
+      name: applicationId
+      in: path
+      required: true
+      description: Represents the id of the application.
+      schema:
+        type: string
+        format: string
+        example: "programView"
+    usersApplicationId:
+      name: applicationId
+      in: path
+      required: true
+      description: Represents the id of the application.
+      schema:
+        type: string
+        format: string
+        example: "userWorkflowManager"
+    lmsType:
+      name: lmsType
+      in: path
+      required: true
+      description: Represents the type of the LMS.
+      schema:
+        type: string
+        format: string
+        example: "Learn"
+    userName:
+      name: userName
+      in: path
+      required: true
+      description: Represents the username of the user.
+      schema:
+        type: string
+        format: string
+        example: "jsmith"
+    fields:
+      name: fields
+      in: query
+      required: false
+      description: A comma-delimited list of fields to include in the response. If not specified, all fields will be returned.
+      schema:
+        type: string
+        format: string
+        example: childCourseId, dataSourceId
+    userFields:
+      name: fields
+      in: query
+      required: false
+      description: A comma-delimited list of fields to include in the response. If not specified, all fields will be returned.
+      schema:
+        type: string
+        format: string
+        example: id, uuid, institutionRoleIds, systemRoleIds
+  schemas:
+    Id:
+      type: string
+      description: Represents the unique identifier
+      format: string
+      example: "b5b039a5-j29a-3652-b5b0-6614539a51250"
+    SiteId:
+      type: string
+      description: Represents the siteId of the Learn environment.
+      format: string
+      example: "1c7039a5-929a-4652-b5b0-6614564e1250"
+    ApplicationId:
+      type: string
+      description: Represents the id of the application.
+      format: string
+      example: "programView"
+    CourseId:
+      type: string
+      description: Represents the courseId from the lms environment. It can be represented in any of the following format primary(_123_1), externalId(externalId:math101), courseId(courseId:math101) and uuid(uuid:915c7567d76d444abf1eed56aad3beb5).
+      format: string
+      example: "_123_1"
+    UserId:
+      type: string
+      description: Represents the userId from the lms environment. It can be represented in any of the following format primary(_124_1), externalId(externalId:jsmith), courseId(courseId:jsmith) and uuid(uuid:915c7567d76d444abf1eed56aad3beb5).
+      format: string
+      example: "_124_1"
+    LmsType:
+      type: string
+      description: Represents the type of lms.
+      format: string
+      example: "Learn"
+    ChildCourseId:
+      type: string
+      description: Represents the child course Id.
+      format: string
+      example: "_125_1"
+    DataSourceId:
+      type: string
+      description: The ID of the data source associated with this user. This may optionally be the data source's externalId using the syntax "externalId:math101".
+      format: string
+      example: "System"
+    Availability:
+      type: object
+      description: Represents the availability of the membership status in object format
+      properties:
+        available:
+          type: string
+          format: string
+          description: Represents the availability of the membership status
+          example: "No"
+    CourseRoleId:
+      type: string
+      description: Represents the Id of the course role
+      format: string
+      example: "Instructor"
+    ExternalId:
+      type: string
+      description: An optional externally-defined unique ID for the user. Defaults to the userName.
+      format: string
+      example: "string"
+    UserName:
+      type: string
+      description: The userName property, shown in the UI.
+      format: string
+      example: "string"
+    StudentId:
+      type: string
+      description: The user's student ID name or number as defined by the school or institution.
+      format: string
+      example: "string"
+    Password:
+      type: string
+      description: The user's login password.
+      format: string
+      example: "string"
+    CourseMembershipResponse:
+      type: object
+      example:
+        {
+          "id": "string",
+          "userId": "string",
+          "user":
+            {
+              "id": "string",
+              "uuid": "string",
+              "externalId": "string",
+              "dataSourceId": "string",
+              "userName": "string",
+              "studentId": "string",
+              "educationLevel": "K8",
+              "gender": "Female",
+              "pronouns": "string",
+              "birthDate": "2023-04-05T09:18:03.648Z",
+              "created": "2023-04-05T09:18:03.648Z",
+              "modified": "2023-04-05T09:18:03.648Z",
+              "lastLogin": "2023-04-05T09:18:03.648Z",
+              "institutionRoleIds": ["string"],
+              "systemRoleIds": ["SystemAdmin"],
+              "availability": { "available": "Yes" },
+              "name":
+                {
+                  "given": "string",
+                  "family": "string",
+                  "middle": "string",
+                  "other": "string",
+                  "suffix": "string",
+                  "title": "string",
+                  "preferredDisplayName": "GivenName",
+                },
+              "job":
+                {
+                  "title": "string",
+                  "department": "string",
+                  "company": "string",
+                },
+              "contact":
+                {
+                  "homePhone": "string",
+                  "mobilePhone": "string",
+                  "businessPhone": "string",
+                  "businessFax": "string",
+                  "email": "string",
+                  "institutionEmail": "string",
+                  "webPage": "string",
+                },
+              "address":
+                {
+                  "street1": "string",
+                  "street2": "string",
+                  "city": "string",
+                  "state": "string",
+                  "zipCode": "string",
+                  "country": "string",
+                },
+              "locale":
+                {
+                  "id": "string",
+                  "calendar": "Gregorian",
+                  "firstDayOfWeek": "Sunday",
+                },
+              "avatar":
+                {
+                  "viewUrl": "string",
+                  "source": "Default",
+                  "uploadId": "string",
+                  "resourceId": "string",
+                },
+              "pronunciation": "string",
+              "pronunciationAudio":
+                { "viewUrl": "string", "uploadId": "string" },
+            },
+          "courseId": "string",
+          "childCourseId": "string",
+          "dataSourceId": "string",
+          "created": "2023-04-05T09:18:03.648Z",
+          "modified": "2023-04-05T09:18:03.648Z",
+          "availability": { "available": "Yes" },
+          "courseRoleId": "Instructor",
+          "bypassCourseAvailabilityUntil": "2023-04-05T09:18:03.648Z",
+          "lastAccessed": "2023-04-05T09:18:03.648Z",
+          "displayOrder": 0,
+        }
+    CreateUserResponse:
+      type: object
+      example:
+        {
+          "id": "string",
+          "uuid": "string",
+          "externalId": "string",
+          "dataSourceId": "string",
+          "userName": "string",
+          "studentId": "string",
+          "educationLevel": "K8",
+          "gender": "Female",
+          "pronouns": "string",
+          "birthDate": "2023-09-04T13:19:55.450Z",
+          "created": "2023-09-04T13:19:55.450Z",
+          "modified": "2023-09-04T13:19:55.450Z",
+          "lastLogin": "2023-09-04T13:19:55.450Z",
+          "institutionRoleIds": ["string"],
+          "systemRoleIds": ["SystemAdmin"],
+          "availability": { "available": "Yes" },
+          "name":
+            {
+              "given": "string",
+              "family": "string",
+              "middle": "string",
+              "other": "string",
+              "suffix": "string",
+              "title": "string",
+              "preferredDisplayName": "GivenName",
+            },
+          "job":
+            { "title": "string", "department": "string", "company": "string" },
+          "contact":
+            {
+              "homePhone": "string",
+              "mobilePhone": "string",
+              "businessPhone": "string",
+              "businessFax": "string",
+              "email": "string",
+              "institutionEmail": "string",
+              "webPage": "string",
+            },
+          "address":
+            {
+              "street1": "string",
+              "street2": "string",
+              "city": "string",
+              "state": "string",
+              "zipCode": "string",
+              "country": "string",
+            },
+          "locale":
+            {
+              "id": "string",
+              "calendar": "Gregorian",
+              "firstDayOfWeek": "Sunday",
+            },
+          "avatar":
+            {
+              "viewUrl": "string",
+              "source": "Default",
+              "uploadId": "string",
+              "resourceId": "string",
+            },
+          "pronunciation": "string",
+          "pronunciationAudio": { "viewUrl": "string", "uploadId": "string" },
+        }
+    CreateUserRequest:
+      type: object
+      example:
+        {
+          "id": "string",
+          "uuid": "string",
+          "externalId": "string",
+          "dataSourceId": "string",
+          "userName": "string",
+          "studentId": "string",
+          "educationLevel": "K8",
+          "gender": "Female",
+          "pronouns": "string",
+          "birthDate": "2023-09-04T13:19:55.450Z",
+          "created": "2023-09-04T13:19:55.450Z",
+          "modified": "2023-09-04T13:19:55.450Z",
+          "lastLogin": "2023-09-04T13:19:55.450Z",
+          "institutionRoleIds": ["string"],
+          "systemRoleIds": ["SystemAdmin"],
+          "availability": { "available": "Yes" },
+          "name":
+            {
+              "given": "string",
+              "family": "string",
+              "middle": "string",
+              "other": "string",
+              "suffix": "string",
+              "title": "string",
+              "preferredDisplayName": "GivenName",
+            },
+          "job":
+            { "title": "string", "department": "string", "company": "string" },
+          "contact":
+            {
+              "homePhone": "string",
+              "mobilePhone": "string",
+              "businessPhone": "string",
+              "businessFax": "string",
+              "email": "string",
+              "institutionEmail": "string",
+              "webPage": "string",
+            },
+          "address":
+            {
+              "street1": "string",
+              "street2": "string",
+              "city": "string",
+              "state": "string",
+              "zipCode": "string",
+              "country": "string",
+            },
+          "locale":
+            {
+              "id": "string",
+              "calendar": "Gregorian",
+              "firstDayOfWeek": "Sunday",
+            },
+          "avatar":
+            {
+              "viewUrl": "string",
+              "source": "Default",
+              "uploadId": "string",
+              "resourceId": "string",
+            },
+          "pronunciation": "string",
+          "pronunciationAudio": { "viewUrl": "string", "uploadId": "string" },
+        }
+    CourseMembership:
+      type: object
+      required:
+        - courseId
+        - userId
+        - lmsType
+      properties:
+        applicationId:
+          $ref: "#/components/schemas/ApplicationId"
+        siteId:
+          $ref: "#/components/schemas/SiteId"
+        courseId:
+          $ref: "#/components/schemas/CourseId"
+        userId:
+          $ref: "#/components/schemas/UserId"
+        lmsType:
+          $ref: "#/components/schemas/LmsType"
+        childCourseId:
+          $ref: "#/components/schemas/ChildCourseId"
+        dataSourceId:
+          $ref: "#/components/schemas/DataSourceId"
+        availability:
+          $ref: "#/components/schemas/Availability"
+        courseRoleId:
+          $ref: "#/components/schemas/CourseRoleId"
+    CreateNewUser:
+      type: object
+      required:
+        - courseId
+        - userId
+        - lmsType
+      properties:
+        applicationId:
+          $ref: "#/components/schemas/ApplicationId"
+        siteId:
+          $ref: "#/components/schemas/SiteId"
+        courseId:
+          $ref: "#/components/schemas/CourseId"
+        userId:
+          $ref: "#/components/schemas/UserId"
+        lmsType:
+          $ref: "#/components/schemas/LmsType"
+        childCourseId:
+          $ref: "#/components/schemas/ChildCourseId"
+        dataSourceId:
+          $ref: "#/components/schemas/DataSourceId"
+        availability:
+          $ref: "#/components/schemas/Availability"
+        courseRoleId:
+          $ref: "#/components/schemas/CourseRoleId"
+    409CCSC:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              httpStatus:
+                type: integer
+                format: int32
+                description: Represents the http error code
+                example: 409
+              errorCode:
+                type: string
+                format: string
+                description: Represents the short description of the cause of the error
+                example: "MembershipExists"
+              errorMessage:
+                type: string
+                format: string
+                description: Represents the detailed explanation for the error
+                example: "A membership already exists between the user and the course"
+              source:
+                type: object
+                description: Represents the detailed explanation for the error
+                example: { "fields": "userId, courseId" }
+    403ApplicationPermission:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              httpStatus:
+                type: integer
+                format: int32
+                description: Represents the http status code
+                example: 403
+              errorCode:
+                type: string
+                format: string
+                description: Represents the unique error code
+                example: "ApplicationPermissionError"
+              errorMessage:
+                type: string
+                format: string
+                description: Represents the detailed explanation for the error
+                example: "Application does not have the necessary permissions."
+              source:
+                type: object
+                description: Represents the detailed explanation for the error
+                example: { "fields": "applicationId" }
+    403AssociationUnavailable:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              httpStatus:
+                type: integer
+                format: int32
+                description: Represents the http status code
+                example: 403
+              errorCode:
+                type: string
+                format: string
+                description: Represents the unique error code
+                example: "AssociationUnavailable"
+              errorMessage:
+                type: string
+                format: string
+                description: Represents the detailed explanation for the error
+                example: "Association between <applicationId> and site with id <siteId> is unavailable or disabled."
+              source:
+                type: object
+                description: Represents the detailed explanation for the error
+                example: { "fields": "applicationId, siteId" }
+    403InstitutionRoles:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              httpStatus:
+                type: integer
+                format: int32
+                description: Represents the http status code
+                example: 403
+              errorCode:
+                type: string
+                format: string
+                description: Represents the unique error code
+                example: "InstitutionRolesInvalid"
+              errorMessage:
+                type: string
+                format: string
+                description: Represents the detailed explanation for the error
+                example: "Some of the received institution roles are not permitted for the user on this site."
+              source:
+                type: object
+                description: Represents the detailed explanation for the error
+                example: { "fields": "institutionRoleIds" }
+    403SystemRoles:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              httpStatus:
+                type: integer
+                format: int32
+                description: Represents the http status code
+                example: 403
+              errorCode:
+                type: string
+                format: string
+                description: Represents the unique error code
+                example: "SystemRolesInvalid"
+              errorMessage:
+                type: string
+                format: string
+                description: Represents the detailed explanation for the error
+                example: "Some of the received system roles are not permitted for the user on this site."
+              source:
+                type: object
+                description: Represents the detailed explanation for the error
+                example: { "fields": "systemRoleIds" }
+    400CCSC:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              httpStatus:
+                type: integer
+                format: int32
+                description: Represents the http error code
+                example: 400
+              errorCode:
+                type: string
+                format: string
+                description: Represents the short description of the cause of the error
+                example: "InvalidRequest"
+              errorMessage:
+                type: string
+                format: string
+                description: Represents the detailed explanation for the error
+                example: "The request is missing some parameters, or has invalid values."
+              source:
+                type: object
+                description: Represents the detailed explanation for the error
+                example: { "fields": "courseId" }
+    400UserName:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              httpStatus:
+                type: integer
+                format: int32
+                description: Represents the http error code
+                example: 400
+              errorCode:
+                type: string
+                format: string
+                description: Represents the short description of the cause of the error
+                example: "InvalidRequest"
+              errorMessage:
+                type: string
+                format: string
+                description: Represents the detailed explanation for the error
+                example: "The request is missing some parameters, or has invalid values."
+              source:
+                type: object
+                description: Represents the detailed explanation for the error
+                example: { "fields": "userName" }
+    400LearnUsers:
+      type: object
+      properties:
+        status:
+          type: string
+          format: string
+          description: Represents HTTP Status code in the response header.
+          example: "string"
+        code:
+          type: string
+          format: string
+          description: The error code specific to a particular REST API. It is usually something that conveys information specific to the problem domain. For cases where the HTTP Status code conveys all the information required (such as a 404-Not Found) then the code may be omitted.
+          example: "string"
+        message:
+          type: string
+          format: string
+          description: Error message that should be easy to understand and convey a concise reason as to why the error occurred
+          example: "string"
+        developerMessage:
+          type: string
+          format: string
+          description: Represents any technical information that a developer calling REST API might find useful.
+          example: "string"
+        extraInfo:
+          type: string
+          format: string
+          description: Indicates a URL that anyone seeing the error message can click in a browser. The target web page should describe the error condition fully, as well as potential solutions to help them resolve the error condition
+          example: "string"
+    Learn:
+      type: object
+      properties:
+        status:
+          type: string
+          format: string
+          description: Represents the http status
+        code:
+          type: string
+          format: string
+          description: Represents the http code
+        message:
+          type: string
+          format: string
+          description: Represents the error message
+        developerMessage:
+          type: string
+          format: string
+          description: Represents the developer message
+        extraInfo:
+          type: string
+          format: string
+          description: Represents the extra info
+    ApplicationId404:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              httpStatus:
+                type: integer
+                format: int32
+                description: Represents the http error code
+                example: 404
+              errorCode:
+                type: string
+                format: string
+                description: Represents the short description of the cause of the error
+                example: "ApplicationNotFound"
+              errorMessage:
+                type: string
+                format: string
+                description: Represents the detailed explanation for the error
+                example: "No resource identified by '<the applicationId received>' was found."
+              source:
+                type: object
+                description: Represents the detailed explanation for the error
+                example: { "fields": "applicationId" }
+    Association404:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              httpStatus:
+                type: integer
+                format: int32
+                description: Represents the http status code
+                example: 404
+              errorCode:
+                type: string
+                format: string
+                description: Represents the short description of the cause of the error
+                example: "AssociationNotFound"
+              errorMessage:
+                type: string
+                format: string
+                description: Represents the detailed explanation for the error
+                example: "Association not found between <applicationId> and site with id <siteId>."
+              source:
+                type: object
+                description: Represents the detailed explanation for the error
+                example: { "fields": "applicationId, siteId" }
+    Id404:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              httpStatus:
+                type: integer
+                format: int32
+                description: Represents the http error code
+                example: 404
+              errorCode:
+                type: string
+                format: string
+                description: Represents the short description of the cause of the error
+                example: "ProductCodeNotFound"
+              errorMessage:
+                type: string
+                format: string
+                description: Represents the detailed explanation for the error
+                example: "No resource identified by '<the id received>' was found."
+              source:
+                type: object
+                description: Represents the detailed explanation for the error
+                example: { "fields": "applicationId,siteId,id" }
+
+  responses:
+    409:
+      description: Data conflict
+      headers:
+        Correlation-ID:
+          $ref: "#/components/headers/Correlation-ID"
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: "#/components/schemas/409CCSC"
+              - $ref: "#/components/schemas/Learn"
+    400:
+      description: Invalid/Bad request
+      headers:
+        Correlation-ID:
+          $ref: "#/components/headers/Correlation-ID"
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: "#/components/schemas/400CCSC"
+              - $ref: "#/components/schemas/Learn"
+    users400:
+      description: An error occurred while creating the new user
+      headers:
+        Correlation-ID:
+          $ref: "#/components/headers/Correlation-ID"
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: "#/components/schemas/400CCSC"
+              - $ref: "#/components/schemas/400LearnUsers"
+    userName400:
+      description: Invalid request, the received userName is an empty string.
+      headers:
+        Correlation-ID:
+          $ref: "#/components/headers/Correlation-ID"
+    403:
+      description: Forbidden
+      headers:
+        Correlation-ID:
+          $ref: "#/components/headers/Correlation-ID"
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: "#/components/schemas/403ApplicationPermission"
+              - $ref: "#/components/schemas/403AssociationUnavailable"
+              - $ref: "#/components/schemas/Learn"
+    users403:
+      description: Forbidden
+      headers:
+        Correlation-ID:
+          $ref: "#/components/headers/Correlation-ID"
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: "#/components/schemas/403InstitutionRoles"
+              - $ref: "#/components/schemas/403SystemRoles"
+              - $ref: "#/components/schemas/403ApplicationPermission"
+              - $ref: "#/components/schemas/403AssociationUnavailable"
+              - $ref: "#/components/schemas/Learn"
+    userName403:
+      description: Forbidden, due to application permission error or association unavailable. 
+      headers:
+        Correlation-ID:
+          $ref: "#/components/headers/Correlation-ID"
+    404:
+      description: Resource not found
+      headers:
+        Correlation-ID:
+          $ref: "#/components/headers/Correlation-ID"
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: "#/components/schemas/Association404"
+              - $ref: "#/components/schemas/Learn"
+    userName500:
+      description: Internal error
+      headers:
+        Correlation-ID:
+          $ref: "#/components/headers/Correlation-ID" 
+    userName502:
+      description: Bad Gateway, bearer token can not be obtained for the LMS.
+      headers:
+        Correlation-ID:
+          $ref: "#/components/headers/Correlation-ID"                    
+    500:
+      description: Internal error
+      headers:
+        Correlation-ID:
+          $ref: "#/components/headers/Correlation-ID"
+      content:
+        appplication/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    httpStatus:
+                      type: integer
+                      format: int32
+                      description: Represents the http error code
+                      example: 500
+                    errorCode:
+                      type: string
+                      format: string
+                      description: Represents the short description of the cause of the error
+                      example: "InternalError"
+                    errorMessage:
+                      type: string
+                      format: string
+                      description: Represents the detailed explanation for the error
+                      example: "Operation failed due to some internal error"
+                    source:
+                      type: object
+                      description: Represents the detailed explanation for the error
+                      example: { "exception": "Null pointer exception" }
+    502:
+      description: Bad Gateway
+      headers:
+        Correlation-ID:
+          $ref: "#/components/headers/Correlation-ID"
+      content:
+        appplication/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    httpStatus:
+                      type: integer
+                      format: int32
+                      description: Represents the http status code
+                      example: 502
+                    errorCode:
+                      type: string
+                      format: string
+                      description: Represents the short description of the cause of the error
+                      example: "LearnBearerError"
+                    errorMessage:
+                      type: string
+                      format: string
+                      description: Represents the detailed explanation for the error
+                      example: "Could not negotiate a bearer token with Learn."
+                    source:
+                      type: object
+                      description: Represents the detailed explanation for the error
+                      example: { "fields": "bearerToken" }
+    201:
+      description: Resource created successfully
+      headers:
+        Correlation-ID:
+          $ref: "#/components/headers/Correlation-ID"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/CourseMembershipResponse"
+    users201:
+      description: User created successfully
+      headers:
+        Correlation-ID:
+          $ref: "#/components/headers/Correlation-ID"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/CreateUserResponse"
+    userName200:
+      description: User with the given username already exists
+      headers:
+        Correlation-ID:
+          $ref: "#/components/headers/Correlation-ID"
+    userName404:
+      description: User with the given username does not exist
+      headers:
+        Correlation-ID:
+          $ref: "#/components/headers/Correlation-ID"
+  requestBodies:
+    CourseMembership:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/CourseMembership"
+      description: Course Membership request object
+      required: true
+    CreateNewUser:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/CreateUserRequest"
+      description: "Create new user request body. The following are mandatory fields and can not be empty: userName, password, institutionRoleIds, systemRoleIds, name.given, name.family. For a full description of all fields please see the endpoint POST /learn/api/public/v1/users in the [Learn API.](https://developer.blackboard.com/portal/displayApi/Learn)"
+      required: true
+
+  securitySchemes:
+    bearerAuth:
+      description: The oauth2 token that is used to authenticate the request. If the bearerAuth type is used then the jwtAuth type cannot be used at the same time. The token should be used in the 'Authorization' request header with the token as a value prefixed with the word bearer
+      type: http
+      scheme: bearer
+      bearerFormat: bearer <token>
+    jwtAuth:
+      description: The jwt token that is used to authenticate the request. If the jwtAuth type is used then the bearerAuth type cannot be used at the same time. The token should be used in the 'Authorization' request header with the token as a value without prefixing the word bearer
+      type: http
+      scheme: bearer
+      bearerFormat: <jwttoken>

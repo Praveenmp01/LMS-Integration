@@ -1,0 +1,47 @@
+{
+  "name": "bb-platform-extensions-lms-integrations",
+  "version": "0.1.0",
+  "bin": {
+    "bb-platform-extensions-lms-integrations": "bin/bb-platform-extensions-lms-integrations.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "clean-definitions": "find ./definitions -name '*.d.ts' -type f -delete && find ./definitions -name '*.js' -type f -delete ",
+    "clean-lib": "find ./infrastructure/lib -name '*.d.ts' -type f -delete && find ./infrastructure/lib -name '*.js' -type f -delete ",
+    "clean-bin": "find ./infrastructure/bin -name '*.d.ts' -type f -delete && find ./infrastructure/bin -name '*.js' -type f -delete ",
+    "clean-test": "find ./infrastructure/test -name '*.d.ts' -type f -delete && find ./infrastructure/test -name '*.js' -type f -delete && rm -rf coverage/ && rm -rf report/",
+    "clean-services": "cd services && mvn clean -s settings.xml && cd ..",
+    "package-services": "cd services && mvn clean install -s settings.xml && cd ..",
+    "test-services": "cd services && mvn clean test -s settings.xml && cd ..",
+    "clean-handlers": "cd handlers && mvn clean -s settings.xml && cd ..",
+    "package-handlers": "cd handlers && mvn clean package -s settings.xml && cd ..",
+    "test-handlers": "cd handlers && mvn clean test",
+    "clean": "npm run clean-lib && npm run clean-bin && npm run clean-test && npm run clean-definitions && npm run clean-services && npm run clean-handlers ",
+    "test": "jest --collect-coverage",
+    "setup": "npm ci && npm run package-services && npm run package-handlers",
+    "cdk": "cdk",
+    "int-tests": "PlatExtApiTestRunner"
+  },
+  "devDependencies": {
+    "@aws-cdk/assert": "^2.35.0",
+    "@aws-sdk/types": "^3.40.0",
+    "@types/aws-lambda": "^8.10.88",
+    "@types/jest": "^27.0.1",
+    "@types/node": "16.9.4",
+    "@types/uuid": "^8.3.4",
+    "jest": "^27.4.5",
+    "jest-junit": "^13.0.0",
+    "ts-jest": "^27.0.5",
+    "ts-node": "^10.2.1",
+    "typescript": "~4.6.4"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "^2.35.0",
+    "constructs": "^10.1.64",
+    "@bb-fnds/cdk-constructs": "9.7.1",
+    "@bb-platform-extensions/cdk-constructs": "^2.0.1",
+    "newman": "^5.3.1",
+    "source-map-support": "^0.5.20"
+  }
+}

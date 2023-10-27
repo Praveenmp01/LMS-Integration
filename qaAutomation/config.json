@@ -1,0 +1,51 @@
+{
+    "siteId": "e1dfeb6b-5ceb-45e3-9290-654d5d17a956",
+    "platExtBaseAPIURL": "https://us.int.extensions.bb-fnds.com/api/v2",
+    "jwtPayload": {
+      "sub": "5e492e4d58454107ab45fa841d2c930f",
+      "https://purl.imsglobal.org/spec/lti/claim/deployment_id": "77eafef0-f9d1-419e-99fc-9cac77aefb02",
+      "https://purl.imsglobal.org/spec/lti/claim/version": "1.3.0",
+      "iss": "https://blackboard.com",
+      "given_name": "Blackboard",
+      "locale": "en-US",
+      "https://purl.imsglobal.org/spec/lti/claim/roles": [
+        "http://purl.imsglobal.org/vocab/lis/v2/institution/person#Administrator"
+      ],
+      "nonce": "12b82a38-2a17-4654-8ed4-e5e602a586d9",
+      "https://purl.imsglobal.org/spec/lti/claim/tool_platform": {
+        "name": "Blackboard, Inc.",
+        "description": "Blackboard, Inc.",
+        "guid": "37d9d9e1d03b41b6b9f04b23eb09fac7",
+        "product_family_code": "BlackboardLearn",
+        "version": "3900.34.0-ci.8130+b00f02b",
+        "url": "https://platform-extensions-int.dev.bbpd.io/",
+        "contact_email": "do-not-reply@blackboard.com"
+      },
+      "https://purl.imsglobal.org/spec/lti/claim/target_link_uri": "https://us.int.extensions.bb-fnds.com/lti/1_3/launches/test/e1dfeb6b-5ceb-45e3-9290-654d5d17a956/myApplication",
+      "https://purl.imsglobal.org/spec/lti/claim/context": {
+        "id": "_6_1",
+        "label": "Platform Extensions - Authorizer Test",
+        "title": "Platform Extensions - Authorizer Test",
+        "type": [
+          "http://purl.imsglobal.org/vocab/lis/v2/course#CourseOffering"
+        ]
+      },
+      "https://purl.imsglobal.org/spec/lti/claim/resource_link": {
+        "id": "PlatExtAuthTest"
+      },
+      "aud": "a37b761b-c1b7-4497-b229-1d072d0f0817",
+      "https://purl.imsglobal.org/spec/lti/claim/message_type": "LtiResourceLinkRequest",
+      "name": "Blackboard Administrator",
+      "https://purl.imsglobal.org/spec/lti/claim/lis": {
+        "person_sourcedid": "administrator"
+      },
+      "https://purl.imsglobal.org/spec/lti/claim/launch_presentation": {
+        "return_url": "https://platform-extensions-int.dev.bbpd.io/webapps/blackboard/execute/blti/launchReturn?nonce=441e854cb50445b08652684d8a658ee3&launch_id=ebd010c8-26a3-4e90-80e9-c815859c6649&link_id=PlatExtAuthTest&launch_time=1643058580990"
+      },
+      "exp": 1643062180,
+      "iat": 1643058580,
+      "family_name": "Administrator",
+      "https://blackboard.com/lti/claim/one_time_session_token": "8cc9f43a09e741c9886baddb6d2de300",
+      "email": "do-not-reply@blackboard.com"
+    }
+  }

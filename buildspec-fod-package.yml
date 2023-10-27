@@ -1,0 +1,36 @@
+version: 0.2
+env:
+  secrets-manager:
+    ARTIFACTORY_USERNAME: pipelines:ARTIFACTORY_USERNAME
+    ARTIFACTORY_TOKEN: pipelines:ARTIFACTORY_TOKEN
+    ARTIFACTORY_NPM_REGISTRY: pipelines:ARTIFACTORY_NPM_REGISTRY
+phases:
+  install:
+    runtime-versions:
+      nodejs: 16
+      java: corretto17
+  build:
+    commands:
+      - git clone --quiet --depth 1 --branch v1 https://github.com/blackboard-innersource/gh-action-setup-artifactory.git
+      - ./gh-action-setup-artifactory/setup_npm.sh
+      - npm ci
+      - cd $CODEBUILD_SRC_DIR/services
+      - mvn install -s settings.xml
+      - cd $CODEBUILD_SRC_DIR/handlers
+      - mvn package -s settings.xml
+
+artifacts:
+  files:
+    - "infrastructure/bin/**/*.ts"
+    - "infrastructure/lib/**/*.ts"
+    - "definitions/*.ts"
+    - "definitions/schemas/*.ts"    
+    - "node_modules/**/*"
+    - "package.json"
+    - "services/**/*.java"
+    - "handlers/**/*.java"
+    - "services/target/LmsIntegrationsServicesLayer-1.0.jar"
+  exclude-paths:
+    - "infrastructure/tests/**/*"
+    - "services/**/*Test.java"
+    - "handlers/**/*Test.java"

@@ -1,0 +1,60 @@
+package com.blackboard.platform.extensions.lmsintegrations.layer.models;
+
+public final class Constants 
+{
+    public static final String LMS_INTEGRATIONS_TABLE = System.getenv("LMS_INTEGRATIONS_TABLE");
+    public static final String CACHE_TIME = "CACHE_TIME";
+    public static final String TRUSTED_KEY = "registrar/trustedKey";
+    public static final String TRUSTED_SECRET = "registrar/trustedSecret";
+    public static final String TRUSTED_URL = "registrar/url";
+    public static final String APPLICATION_NOT_FOUND = "ApplicationNotFound";
+    public static final String ASSOCIATION_NOT_FOUND = "AssociationNotFound";
+    public static final String ASSOCIATION_NOT_ENABLED = "AssociationNotEnabled";
+    public static final String LMS_TYPE = "lmsType";
+    public static final String LEARN_TYPE = "Learn";
+    public static final String DEV_PORTAL_KEY = "devPortal/extensionsAppKey";
+    public static final String DEV_PORTAL_SECRET = "devPortal/extensionsAppSecret";
+    public static final String COURSE_ROLE_ID = "courseRoleId";
+    public static final String STUDENT = "Student";
+    public static final String COURSE_ID = "courseId";
+    public static final String MEMBERSHIP_EXIST_MESSAGE = "A membership already exists between the user and the course";
+    public static final String LEARN_DATA_NOT_FOUND_MESSAGE = "User or Course does not exist in Learn";
+    public static final String LEARN_DATA_NOT_FOUND = "LearnRecordNotFound";
+    public static final String MESSAGE = "message";
+    public static final String CODE = "code";
+    public static final String LEARN_BEARER_ERROR = "LearnBearerError";
+    public static final String BEARER_TOKEN = "bearerToken";
+    public static final String LEARN_BEARER_ERROR_MESSAGE = "Could not negotiate a bearer token with Learn";
+    public static final String LOCATION_URL = "{url}/{id}";
+    public static final String LMS_INTEGRATION_ERROR = "LMS Integration Error";
+    public static final String LMS_INTEGRATION_ERROR_MESSAGE = "LMS Integration Failed due to an internal error";
+    public static final String LMS_INTEGRATION = "LMS_INTEGRATION";
+    public static final String DEV_PORTAL_KEY_SECRET = "devPortalKey, devPortalSecret";
+    public static final String APPLICATION_PERMISSION_ERROR = "ApplicationPermissionError";
+    public static final String ALLOWED_APPLICATIONS = "lms/allowedApplications";
+    public static final String ALLOWED_APPLICATIONS_ERROR_MESSAGE = "Application does not have the necessary permissions.";
+    public static final String AVAILABILITY_FILTER = "availability.available";
+    public static final String ASSOCIATION_UNAVAILABLE_MESSAGE = "Association between <applicationId> and site with id <siteId> is unavailable or disabled.";
+    public static final String ASSOCIATION_UNAVAILABLE_ERROR_CODE = "AssociationUnavailable";
+    public static final String ASSOCIATION_SOURCE_FIELDS = "applicationId, siteId";
+    public static final String ASSOCIATION_NOT_FOUND_ERROR_CODE = "AssociationNotFound";
+    public static final String COMMA_DELIMITER = ",";
+    public static final String QUERY_PARAM_DELIMITER = "?";
+    public static final String INSTITUTION_ROLE_INVALID_MESSAGE = "Some of the received institution roles are not permitted for the user on this site.";
+    public static final String INSTITUTION_ROLE_INVALID_CODE = "InstitutionRolesInvalid";
+    public static final String INSTITUTION_ROLE_INVALID_SOURCE_FIELDS = "institutionRoleIds";
+    public static final String SYSTEM_ROLE_INVALID_MESSAGE = "Some of the received system roles are not permitted for the user on this site.";
+    public static final String SYSTEM_ROLE_INVALID_CODE = "SystemRolesInvalid";
+    public static final String SYSTEM_ROLE_INVALID_SOURCE_FIELDS = "systemRoleIds";
+    public static final String CREATE_USER_ALLOWED_APPLICATIONS = "lms/createUserAllowedApplications";
+    public static final String LEARN_COURSE_MEMBERSHIP_PATH = "/learn/api/public/v1/courses/{courseId}/users/{userId}";
+    public static final String GET_LEARN_COURSE_MEMBERSHIP_PATH = "/learn/api/public/v1/courses/{courseId}/users";
+    public static final String OAUTH_TOKEN_URL_PATH = "/learn/api/public/v1/oauth2/token";
+    public static final String LEARN_CREATE_USER_PATH = "/learn/api/public/v1/users";
+    public static final String LEARN_CHECK_USER_EXISTS_PATH = "/learn/api/public/v1/users/userName:{userName}";
+    public static final String LEARNER_IR = "learner_ir";
+    public static final String LEARNER_SR = "learner_sr";
+    public static final String STATUS_CODE = "statusCode";
+    public static final String STATUS = "status";
+
+}

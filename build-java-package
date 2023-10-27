@@ -1,0 +1,5 @@
+#!/bin/bash
+cd services
+mvn install -q -s settings.xml
+cd ../handlers
+mvn package -q -s settings.xml

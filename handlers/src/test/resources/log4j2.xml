@@ -1,0 +1,15 @@
+<Configuration status="OFF">
+    <Appenders>
+        <Lambda name="Lambda">
+            <PatternLayout>
+                <pattern>%X{AWSRequestId} %-5p %c{1} - %m%n</pattern>
+            </PatternLayout>
+        </Lambda>
+    </Appenders>
+    <Loggers>
+        <Root level="OFF">
+            <AppenderRef ref="Lambda"/>
+        </Root>
+        <Logger name="com.blackboard.platform.extensions.lmsintegrations" level="OFF" />
+    </Loggers>
+</Configuration>

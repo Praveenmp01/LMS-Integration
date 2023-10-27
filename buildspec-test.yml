@@ -1,0 +1,47 @@
+version: 0.2
+env:
+  secrets-manager:
+    ARTIFACTORY_USERNAME: pipelines:ARTIFACTORY_USERNAME
+    ARTIFACTORY_TOKEN: pipelines:ARTIFACTORY_TOKEN
+    ARTIFACTORY_NPM_REGISTRY: pipelines:ARTIFACTORY_NPM_REGISTRY
+phases:
+  install:
+    runtime-versions:
+      nodejs: 16
+      java: corretto17
+    commands:
+      - git clone --quiet --depth 1 --branch v1 https://github.com/blackboard-innersource/gh-action-setup-artifactory.git
+      - ./gh-action-setup-artifactory/setup_npm.sh
+      - npm ci
+  build:
+    commands:
+      - cd $CODEBUILD_SRC_DIR/services
+      - mvn clean clover:setup test clover:clover -s settings.xml
+      - mvn install -s settings.xml
+      - cd $CODEBUILD_SRC_DIR/handlers
+      - mvn clean clover:setup test clover:clover -s settings.xml
+      - mvn package -s settings.xml
+      - cd $CODEBUILD_SRC_DIR
+      - npm run test
+reports:
+  jest_reports:
+    files:
+      - jestReporFile.xml
+    file-format: JUNITXML
+    base-directory: report
+  clover_jest_reports:
+    files:
+      - clover.xml
+    file-format: CLOVERXML
+    base-directory: coverage
+  handlers_surefire_reports:
+    files:
+      - "**/*"
+    file-format: JUNITXML
+    base-directory: "handlers/target/surefire-reports"
+    discard-paths: false
+  handlers_clover_java_reports:
+    files:
+      - clover.xml
+    file-format: CLOVERXML
+    base-directory: "handlers/target/site/clover"

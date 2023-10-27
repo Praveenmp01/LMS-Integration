@@ -1,0 +1,11 @@
+{
+  "applicationId": "programView",
+  "siteId": "98dfa07e-6c46-4813-ad5b-b5bdd72b137b",
+  "courseId": "courseId:icm_123",
+  "userId": "userName:tgadmintest",
+  "lmsType": "Learn",
+  "availability": {
+    "available": "No"
+  },
+  "courseRoleId": "Instructor"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "string",
+  "userId": "string",
+  "user": {
+    "id": "string",
+    "uuid": "string"
+  },
+  "courseId": "string",
+  "childCourseId": "string",
+  "dataSourceId": "string",
+  "created": "2023-04-05T09:18:03.648Z",
+  "modified": "2023-04-05T09:18:03.648Z",
+  "availability": {
+    "available": "Yes"
+  },
+  "courseRoleId": "Instructor"
+ }

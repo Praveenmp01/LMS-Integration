@@ -1,0 +1,9 @@
+{
+  "childCourseId": "string",
+  "dataSourceId": "string",
+  "availability": {
+    "available": "Yes"
+  },
+  "courseRoleId": "Instructor",
+  "displayOrder": 0
+}
